@@ -89,18 +89,17 @@ router.put('/posts/:postId', async(req,res) => {
 
     if (!post) {
       return res.status(404).json({ errorMessage: '게시글 조회에 실패하였습니다' });
-    } else if (post.password !== password) {
-      return res.status(401).json({ errorMessage: '비밀번호가 일치하지 않습니다' });
-    };
+    } 
 
     // 모든 조건을 통과했다면 수정작업 수행
-    await prisma.posts.update({
-      data: { title, content },
-      where: {
-        postId: +postId,
-        password // 한 번 더 검증
-      }
-    });
+    if (post.password === password) { 
+      await prisma.posts.update({ 
+        data: { title, content }, 
+        where: { postId: +postId, password } // 한 번 더 검증
+        });
+    } else {
+      return res.status(401).json({ errorMessage: '비밀번호가 일치하지 않습니다' });
+    }
 
     return res.status(200).json({ message: '게시글을 수정하였습니다' })
   } catch (err) {
@@ -119,14 +118,17 @@ router.delete('/posts/:postId', async(req,res) => {
 
     if (!post) {
       return res.status(404).json({ errorMessage: '게시글 조회에 실패하였습니다' });
-    } else if (post.password !== password) {
-      return res.status(401).json({ errorMessage: '비밀번호가 일치하지 않습니다' });
     };
 
     // 모든 조건을 통과했다면 삭제작업 수행
-    await prisma.posts.delete({
-      where: { postId: +postId }
-    });
+    if (post.password === password) { 
+      await prisma.posts.update({ 
+        data: { title, content }, 
+        where: { postId: +postId, password } // 한 번 더 검증
+        });
+    } else {
+      return res.status(401).json({ errorMessage: '비밀번호가 일치하지 않습니다' });
+    }
 
     return res.status(200).json({ message: '게시글을 삭제하였습니다' });
   } catch (err) {

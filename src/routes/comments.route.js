@@ -10,10 +10,10 @@ router.post('/posts/:postId/comments', async(req,res) => {
     const { user, password, content } = req.body;
 
     // body데이터 검증 과정에서, content만 살짝 특별취급해서 에러메세지 다르게 출력
-    if (!content) {
-      return res.status(400).json({ errorMessage: '댓글 내용을 입력해주세요' });
-    } else if (!user || !password) {
-      return res.status(400).json({ errorMessage: 'body데이터 형식이 올바르지 않습니다' })
+    if (!user || !password) {
+      return res.status(400).json({ errorMessage: 'body데이터 형식이 올바르지 않습니다' });
+    } else if (!content) {
+      return res.status(400).json({ errorMessage: '댓글 내용을 입력해주세요' })
     };
 
     const post = await prisma.posts.findFirst({ where: { postId: +postId } });
@@ -81,10 +81,10 @@ router.put('/posts/:postId/comments/:commentId', async(req,res) => {
     const { password, content } = req.body;
 
     // body데이터의 400에러
-    if (!content) {
-      return res.status(400).json({ errorMessage: '댓글 내용을 입력해주세요' });
-    } else if (!password) {
-      return res.status(400).json({ errorMessage: 'body데이터 형식이 올바르지 않습니다' })
+    if (!password) {
+      return res.status(400).json({ errorMessage: 'body데이터 형식이 올바르지 않습니다' });
+    } else if (!content) {
+      return res.status(400).json({ errorMessage: '댓글 내용을 입력해주세요' })
     };
 
     // params데이터 입력 제대로 못한 경우의 400에러 -> post찾아보고, null이면 에러
