@@ -4,7 +4,7 @@ import { prisma } from '../utils/prisma/index.js'
 const router = express.Router();
 
 /** 1. 댓글 생성 API **/
-router.post('/posts/:postId/comments', async(req,res) => {
+router.post('/:postId/comments', async(req,res) => {
   try {
     const { postId }  = req.params;
     const { user, password, content } = req.body;
@@ -38,7 +38,7 @@ router.post('/posts/:postId/comments', async(req,res) => {
 
 /** 2. '해당 게시글의' 댓글 (전체)조회 **/
   // 모든 게시글의 모든 댓글을 보여주는 것이 아니라, 해당 게시글의 모든 댓글 get
-router.get('/posts/:postId/comments', async(req,res) => {
+router.get('/:postId/comments', async(req,res) => {
   try {
     const { postId } = req.params;
     
@@ -75,7 +75,7 @@ router.get('/posts/:postId/comments', async(req,res) => {
 
 
 /** 3. 댓글 수정 **/
-router.put('/posts/:postId/comments/:commentId', async(req,res) => {
+router.put('/:postId/comments/:commentId', async(req,res) => {
   try {
     const { postId, commentId } = req.params;
     const { password, content } = req.body;
@@ -118,7 +118,7 @@ router.put('/posts/:postId/comments/:commentId', async(req,res) => {
 
 
 /** 4. 댓글 삭제 **/
-router.delete('/posts/:postId/comments/:commentId', async(req,res) => {
+router.delete('/:postId/comments/:commentId', async(req,res) => {
   try {
     const { postId, commentId } = req.params;
     const { password } = req.body;

@@ -4,7 +4,7 @@ import { prisma } from '../utils/prisma/index.js'
 const router = express.Router();
 
 /** 1. 게시글 생성API **/
-router.post('/posts', async(req,res) => {
+router.post('/', async(req,res) => {
   const { user, title, content, password } = req.body;
 
   if (!user || !title || !content || !password) {
@@ -30,7 +30,7 @@ router.post('/posts', async(req,res) => {
 
 
 /** 2. 게시글 전체 조회API **/
-router.get('/posts', async(req,res) => {
+router.get('/', async(req,res) => {
   const posts = await prisma.posts.findMany({
     select: {
       postId: true,
@@ -48,7 +48,7 @@ router.get('/posts', async(req,res) => {
 
 
 /** 3. 게시글 상세 조회API **/
-router.get('/posts/:postId', async(req,res) => {
+router.get('/:postId', async(req,res) => {
   try {
     const { postId } = req.params;
 
@@ -76,7 +76,7 @@ router.get('/posts/:postId', async(req,res) => {
 
 
 /** 4. 게시글 수정 API **/
-router.put('/posts/:postId', async(req,res) => {
+router.put('/:postId', async(req,res) => {
   try {
     const { postId } = req.params;
     const { password, title, content } = req.body;
@@ -109,7 +109,7 @@ router.put('/posts/:postId', async(req,res) => {
 
 
 /** 5. 게시글 삭제 API **/
-router.delete('/posts/:postId', async(req,res) => {
+router.delete('/:postId', async(req,res) => {
   try {
     const { postId } = req.params;
     const { password } = req.body;
